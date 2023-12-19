@@ -8,9 +8,14 @@ const port = 3000
 //HTTP logger
 app.use(morgan('combined'))
 
+
+app.use(express.urlencoded({
+	extended: true
+}))
+app.use(express.json())
+
 app.use(express.static(path.join(__dirname,'public')))
 
-console.log(__dirname,'public','images')
 
 //Template Engine
 app.engine('hbs',engine({
@@ -31,7 +36,20 @@ app.get('/news', (req, res) => {
   // res.send('123')
 })
 
+app.get('/search', (req, res) => {
+  res.render('search')
+  // res.send('123')
+})
+
+app.post('/search', (req, res) => {
+  res.render('search')
+  console.log(req.body)
+  console.log(req.hostname)
+  // res.send('123')
+})
+
+
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`App listening on port ${port}`)
 })
