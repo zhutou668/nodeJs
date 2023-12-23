@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const newsController = require('../appcontroller/NewsController.js');
+const newsController = require('../app/controller/NewsController.js');
 
-router.use('/:slug', newsController.showdetails);
+router.get('/:slug', newsController.showdetails);
 
-router.use('/', newsController.index);
+router.get('/', newsController.index);
 
 module.exports = router;
