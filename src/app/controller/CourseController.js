@@ -29,8 +29,24 @@ class CoursesController {
 			 res.redirect('/')
 		 })
 		 .catch(err => {
-			 
+			 console.log(err)
 		 })
+	}
+	
+	
+	//[GET] course/edit/:id
+	editCourse (req, res, next) {
+		Course.findOne({_id: req.params.id})
+		.then(course => res.render('course/editCourse',{
+			course:mongooseObject(course)
+		}))
+		.catch(next)
+	}
+	
+	update (req, res, next) {
+		Course.updateOne({_id: req.params.id},req.body)
+		.then(()=> res.redirect('/my/courses'))
+		.catch(next)
 	}
 		
 }
