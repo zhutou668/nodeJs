@@ -1,6 +1,9 @@
 <div class="mt-4">
 	<div>
-		<h3>Khoá học của tôi</h3>
+		<h5>
+		<a href="/my/courses">Quay lại</a>
+		</h5>
+		<h3>Khoá học đã xoá</h3>
 	</div>
 	<table class="table">
 	  <thead>
@@ -9,32 +12,30 @@
 	      <th scope="col">Tên khoá học</th>
 	      <th scope="col">Giá</th>
 	      <th scope="col">Thời gian tạo</th>
-		  <th scope="col">Thao tác</th>
+		  <th scope="col" class="text-center">Thao tác</th>
 	    </tr>
 	  </thead>
 	  <tbody>
-	  {{#each courses}}
+	  {{#each deletedCourses}}
 	    <tr>
 	      <th scope="row">{{sumIndex @index 1}}</th>
 	      <td>{{this.name}}</td>
 	      <td>{{this.price}}</td>
 	      <td>{{this.createdAt}}</td>
-		  <td><a href="/course/edit/{{this._id}}" class="btn btn-link">Sửa</a>
-		  <a href="" class="btn btn-link" data-toggle="modal" data-id="{{this._id}}" data-target="#dele-course">Xoá</a>
+		  <td colspan="2" class="text-center">
+		  <a href="" class="btn btn-link restore-btn" data-id="{{this._id}}">Khôi phục</a>
+		  <a href="" class="btn btn-link" data-toggle="modal" data-id="{{this._id}}" data-target="#dele-course">Xoá Vĩnh Viễn</a>
 		  </td>
 	    </tr>
 		{{else}}
 		<tr>
 			<td colspan="5">
-				Bạn chưa có khoá học nào...
-				<a href="/course/create">Vui lòng thêm khoá học tại đây !</a>
+				Chưa có khoá học nào bị xoá...
 			</td>
 		</tr>
 		{{/each}}
 	  </tbody>
 	</table>
-	
-	<p><a href="/my/trash/coures">Thùng Rác</a></p>
 	
 	<!-- modal-delete -->
 	<!-- Modal -->
@@ -61,11 +62,14 @@
 
 <!--delete form -->
 <form name="delete-course" method="POST"></form>
+<form name="restore-course" method="POST"></form>
 
 <script>
 	document.addEventListener("DOMContentLoaded",function() {
 		var courseID
 		var  deleForm= document.forms["delete-course"]
+		var  restoreForm= document.forms["restore-course"]
+		var restoreBtn = $('.restore-btn')
 		$('#dele-course').on('show.bs.modal', function (event) {
 		  var button = $(event.relatedTarget) // Button that triggered the modal
 		  courseID = button.data('id') // Extract info from data-* attributes
@@ -75,6 +79,13 @@
 			console.log(deleForm)
 			deleForm.action = `/course/delete/${courseID}?_method=DELETE`;
 			deleForm.submit()
+		})
+		
+		$(restoreBtn).click(function(e){
+			e.preventDefault()
+			 courseID =$(this).data('id')
+			restoreForm.action=`/my/trash/restore/coures/${courseID}?_method=PATCH`;
+			restoreForm.submit()
 		})
 	})
 	
