@@ -11,7 +11,7 @@
 	      <th scope="col">STT</th>
 	      <th scope="col">Tên khoá học</th>
 	      <th scope="col">Giá</th>
-	      <th scope="col">Thời gian tạo</th>
+	      <th scope="col">Thời gian xoá</th>
 		  <th scope="col" class="text-center">Thao tác</th>
 	    </tr>
 	  </thead>
@@ -21,7 +21,7 @@
 	      <th scope="row">{{sumIndex @index 1}}</th>
 	      <td>{{this.name}}</td>
 	      <td>{{this.price}}</td>
-	      <td>{{this.createdAt}}</td>
+	      <td>{{this.deletedAt}}</td>
 		  <td colspan="2" class="text-center">
 		  <a href="" class="btn btn-link restore-btn" data-id="{{this._id}}">Khôi phục</a>
 		  <a href="" class="btn btn-link" data-toggle="modal" data-id="{{this._id}}" data-target="#dele-course">Xoá Vĩnh Viễn</a>
@@ -77,7 +77,7 @@
 		
 		$('#btn-delete').on('click',function(){
 			console.log(deleForm)
-			deleForm.action = `/course/delete/${courseID}?_method=DELETE`;
+			deleForm.action = `/course/force/delete/${courseID}?_method=DELETE`;
 			deleForm.submit()
 		})
 		
